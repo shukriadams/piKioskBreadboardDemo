@@ -66,6 +66,7 @@ $(document).ready(function() {
 
 	try
 	{
+		// Optional : change this IP number to the IP of your PI if you want to run the demo page remotely
 		var socket = io.connect('http://127.0.0.1:3000');
 
 		socket.on('switch', function (data) {

@@ -54,7 +54,7 @@ Install Apache, then disable it
 > 
 > sudo update-rc.d apache2 disable
 
-*I'm not sure if this is necessary but I find installing Apache does all necessary configuration for a Pi to work as a webserver. I disable Apache afterwards because it's the easiest way to free up port 80 for NodeJS to use.*
+*I'm not sure if this is the best way to set up but I find installing Apache does all necessary configuration for a Pi to work as a webserver. I disable Apache afterwards because it's the easiest way to free up port 80 for NodeJS to use.*
 
 We need to route all standard HTTP traffic (port 80) to our NodeJS app (Express) - this is easier said than done because of Raspian doesn't like NodeJS listening on low port numbers. The easiest fix I found was configuring my NodeJS app to listen on a high number like 8080, and the routing all traffic from 80 to 3000. First, install **iptables-persist**
 
@@ -85,9 +85,10 @@ PM stands for "Process Manager", this is an extremely useful Node program that s
 On your pi, create a folder  /home/pi/board. Your breadboard reader code and related files will go in here. Copy everything from this project's /board folder to that folder. 
 Open a console in that folder, and run "npm install". This can take a while.
 If you've wired your board up correctly, it should be ready to work now, at least partially.
-Run "sudo node board". You should get back the message "Reading switch input...". Click a button your board, the LED lights up, and then you get an "ECONNREFUSED" exception and your program will exit. 
+You can test it by running "sudo node board". You should get back the message "Reading switch input...". Click a button your board, the LED should light up, and then you get an "ECONNREFUSED" exception and your program will exit.  
 
-copy /init.d/nodeBoard to your pi's /etc/init.d folder.
+copy /init.d/nodeBoard to your pi's /etc/init.d folder (you'll need to get past the access restriction on the target folder).
+
 Make it executable and add it to your system startup:
 
 > sudo chmod +x /etc/init.d/nodeBoard
@@ -98,7 +99,7 @@ Test it by running
 >sudo /etc/init.d/nodeBoard start
 >sudo pm2 list
 
-Pm2 should show that nodeBoard is runnning. Your board's code handler will now start automatically and be let running when your pi is started.
+Pm2 should show that nodeBoard is runnning. Your board's code handler will now start automatically and be left running when your pi is started. You can always use "sudo pm2 list" to test if the board process is running, which is useful for debugging.
 
 2 - Express
 ---
@@ -116,14 +117,53 @@ Express will now also be started automatically.
 You can confirm express is working with
 > sudo node /var/express/app
 
-And then opening a web browser to your pi's IP number and /test.html
+You should receive "Listening on port 3000". Open a web browser to your pi's IP number and /test.html. You should get a "test worked" page.
 
 3 - UI
 ---
-In your /front folder,
+Build all ui content. In your local /ui folder, run
 
 > npm install
 > bower install
 > grunt
 
-Copy everything in /front/src to /var/express/content
+You will need NPM, Bower and Grunt already installed globally on your local system. 
+
+Optional step : 
+If you want run the UI in a browser on a machine other than your Pi, open  /ui/src/js/script.js in a text editor. Find "127.0.0.1" and change this to the IP of you Pi. 
+
+Copy everything in /ui/src to /var/express/content
+
+4 - Set up kiosk
+---
+Running your Pi in "kiosk" mode means running a browser on it, and connected a screen so that browser is always running in full screen mode. Normally kiosk mode also entails that the browser is locked in fullscreen mode and the user cannot access the underlying operating system, but we'll forego that for this demo. At the time of writing only the Chromium browser supports true kiosk mode, but the ARM port of this browser is also very out of date and doesn't properly support modern CSS features, so we'll fake kiosk mode in the more up-to-date browser Epiphany, which should be installed by default on Raspbian. 
+
+Enable boot-to-desktop in the main pi config menu with (this will reboot your pi)
+> sudo raspi-config
+
+You probably want to install xrdp to remote test your desktop
+> sudo apt-get install xrdp
+
+Edit the X server auto start script
+> sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+
+And set its contents to look like :
+
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xset s off
+@xset -dpms
+@xset s noblank
+@sh /home/pi/startKiosk.sh
+
+
+Install Xautomation (we need this to automate fullscreening your browser)
+
+> sudo apt-get install xautomation
+
+Copy /board/startKiosk.sh to /home/pi/
+Make it executable :
+> chmod u+x /home/pi/startKiosk.sh
+
+This script waits 10 seconds, starts a browser on the demo page, then fullscreens it. The 10 second wait is to ensure that Express has started.
+
