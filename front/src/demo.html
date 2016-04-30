@@ -1,0 +1,100 @@
+<html>
+<head>
+	<link rel="stylesheet" href="css/normalize.css">
+  	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/jquery.fullPage.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+	<div id="fullpage">
+	    <div class="section gradient gradient1">
+			<div class="container">
+	
+			  	<h1>Action required!</h1>
+
+			  	<!-- just use a number and class 'column' or 'columns' -->
+			  	<div class="row">
+			    	<div class="six columns">
+						Attached to this display is a Raspberry Pi, and attached to that is a small controller board. Click 
+						<strong>Forward</strong> on the controller to proceed.
+				    </div>
+				</div>
+			</div>
+	    </div>
+	    <div class="section ">
+			<div class="background-tile">
+               <img src="/img/wires.jpg">
+			</div>	    
+			<div class="container">
+				<h1>How?</h1>
+			  	<div class="row">
+			    	<div class="six columns">
+	    				<p>
+	    				For this display, a controller that could advance or reverse slides was required. One
+	    				was put together from standard parts, and a program written to handle button clicks. In
+	    				this case, clicking blinks a light, and calls an Express server via REST.
+						</p>
+						<p>Express is a NodeJS web server, also running on this Pi. Express serves the demo page you're reading now. Yes, this is a plain old webpage. Express then uses a websocket to pass along button clicks to the page. 
+	    				</p>
+				    </div>
+				    <div class="six columns">
+				    <p>
+					    When the button signal reaches the webpage, it triggers a
+	    				jQuery event which scrolls the display back or forward. 
+	    				</p>
+	    				<p>
+		    				Click <strong>Forward</strong> for more    
+		    				(hint : you can also click <strong>Back</strong>)
+	    				</p>
+				    </div>
+				</div>
+			</div>  
+	    </div>
+	    <div class="section gradient gradient2">
+			<div class="container">
+				<h1>Why?</h1>
+			  	<div class="row">
+			    	<div class="six columns">
+		    			Anything that can send trigger a signal to a Pi can be converted into a browser event. Movement in front of 
+		    			a camera, standing on a pressure plate, touching electrosensitive paper, it's all good.
+				    </div>
+				    <div class="six columns">
+				    	<p>
+			    		Similarly, the electronic content on display here is just a regular website - css, javascript and images. No
+			    		internet connection is required (everything runs locally on the Pi). 
+			    		</p>
+						<p>
+						Click <strong>Forward</strong> for more.
+						</p>
+				    </div>
+			  	</div>				
+			</div>
+	    </div>
+
+	    <div class="section gradient gradient1">
+			<div class="background-tile">
+               <img src="/img/sunshine.jpg">
+			</div>	    
+			<div class="container">
+				<h1>The End</h1>
+			  	<div class="row">
+			    	<div class="six columns">
+			    		<p>
+			    			Thanks for watching this short presentation about awesome hacks.
+			    		</p>
+			    		<p>
+					    	Clicking <strong>Forward<strong> restarts the sequence.
+			    		</p>
+				    </div>
+			  	</div>	
+			</div>  	    	
+	    </div>
+	</div>
+
+	<script src="/js/jquery.js"></script>
+	<script src="/js/jquery.fullPage.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/js/script.js"></script>
+
+</body>
+</html>

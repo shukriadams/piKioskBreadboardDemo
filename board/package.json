@@ -1,0 +1,6 @@
+{
+	"name" : "nodeWire",
+	"dependencies" : {
+		"wiring-pi" : "2.1.0"
+	}
+}

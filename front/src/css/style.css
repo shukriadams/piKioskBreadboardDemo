@@ -1,0 +1,69 @@
+@import url(http://fonts.googleapis.com/css?family=Crete+Round);
+@import url("http://fonts.googleapis.com/css?family=Lato");
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:900");
+
+
+body{
+	color:white;
+	font-family: "Lato", serif;
+    font-size: 2.5em;
+    line-height: 1.4;
+}
+
+h1 {
+    font-size: 8.0rem;
+}
+
+/* fullpage overrides */
+.fp-tableCell {
+	vertical-align: top;
+	position: relative;
+}
+
+/* skeleton overrides */
+.container {
+	max-width: 1400px;
+	padding: 50px;
+    position: absolute;
+    top: 0;
+    /*left: 50%;
+    transform: translateX(-50%);    
+    */
+}
+
+.background-tile.centerWidth, .background-tile.centerWidth img {
+	height:100%;
+	width:auto;
+    left: 50%;
+    transform: translateX(-50%);
+    position:relative;
+}
+
+.background-tile.centerHeight, .background-tile.centerHeight img {
+	width:100%;
+	height:auto;
+    /*top: 50%;
+    transform: translateY(-50%);*/
+    position:relative;
+
+}
+
+.gradient {
+	background-size: 600% 600%;
+}
+
+.gradient1 {
+	background: linear-gradient(214deg, #95f8f9, #a16ab2, #f0ee93);
+}
+
+.gradient2 {
+	background: linear-gradient(214deg, #eeb1cb, #5bb6bb, #b4e399);
+}
+
+.gradient3 {
+	background: linear-gradient(214deg, #95f8f9, #a16ab2, #f0ee93);
+}
+
+.gradient4 {
+	background: linear-gradient(214deg, #eeb1cb, #5bb6bb, #b4e399);
+}

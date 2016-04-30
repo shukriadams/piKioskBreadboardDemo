@@ -1,0 +1,40 @@
+#!/bin/bash
+# /etc/init.d/nodeBoard
+
+### BEGIN INIT INFO
+# Provides:          nodeBoard
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Example initscript
+# Description:       This starts node
+### END INIT INFO
+
+logfile="/home/pi/board/init.log"
+exec 1>>$logfile
+exec 2>>$logfile
+exec 3>>$logfile
+
+case "$1" in 
+    start)
+        # You must run this as root, user "pi" doesn't have wiring permission. A process started as root 
+        # doesn't show normally in pm2 though, you can access it via "sudo pm2 list"
+ 
+        # You can always manually stop/start the the pm2 process wrapper for board.js, simply copy/paste
+        # the "su root -c ..." lines below to a console, minus the log stuff. Don't use sudo, you must run
+        # su root, as you want to run root, not pi with root permission.
+        echo "Starting nodeBoard " $(date) >> $logfile
+        su root -c "/usr/local/lib/node_modules/pm2/bin/pm2 start /home/pi/board/board.js --name nodeBoard" >> $logfile
+        ;;
+    stop)
+        echo "Stopping nodeBoard"
+        su root -c "/usr/local/lib/node_modules/pm2/bin/pm2 stop nodeBoard" 
+        ;;
+    *)
+        echo "Usage: nodeBoard start|stop"
+        exit 1
+        ;;
+esac
+
+exit 0

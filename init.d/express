@@ -1,0 +1,35 @@
+#!/bin/bash
+# /etc/init.d/express
+
+### BEGIN INIT INFO
+# Provides:          express
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Example initscript
+# Description:       This starts express
+### END INIT INFO
+
+logfile="/var/express/init.log"
+exec 1>>$logfile
+exec 2>>$logfile
+exec 3>>$logfile
+
+case "$1" in
+    start)
+        su pi -c "/usr/local/lib/node_modules/pm2/bin/pm2 start /var/express/app.js --name express"
+            ;;
+    stop)
+        echo "Stopping express"
+        su pi -c "/usr/local/lib/node_modules/pm2/bin/pm2 stop express"
+        ;;
+    *)
+        echo "Usage: express start|stop"
+        exit 1
+        ;;
+esac
+
+exit 0
+
+
