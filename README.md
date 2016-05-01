@@ -43,11 +43,13 @@ First, some basics. This isn't a very technically-demanding demo, but you'll get
 Lets get started. As usual, update your Pi with
 
 >  sudo apt-get update
+>
 >  sudo apt-get upgrade
 
 Install Apache, then disable it
 
 > sudo apt-get install apache2 -y
+>
 > sudo update-rc.d apache2 disable
 
 I'm not sure if this is the best way to set up but I find installing Apache does all necessary configuration for a Pi to work as a webserver. I disable Apache afterwards to free up port 80 for NodeJS to use. We need to route all standard HTTP traffic (port 80) to our NodeJS app (Express) - Raspian doesn't like NodeJS listening on low port numbers. We'll configure NodeJS to listen on a high number like 3000, and then route all traffic from 80 to 3000. 
@@ -66,8 +68,10 @@ You don't have to use port 3000, but you'll need to update all the references to
 Install NodeJS
 
 > wget http://node-arm.herokuapp.com/node_archive_armhf.deb
+>
 > sudo dpkg -i node_archive_armhf.deb
->  node -v
+>
+> node -v
 
 Running "node -v" should return 0.12.6. It's important that you *don't* install NodeJS with **apt-get install nodejs**, this installs the latest version which did not work for what I'm doing here.
 
@@ -86,6 +90,7 @@ On your Pi, create a folder for the breadboard controller code
 Copy everything from this project's /board folder to that folder. You can use SFTP for this. Then
 
 > cd /home/pi/board. 
+>
 > npm install 
 
 This can take a while. If you've wired your board up correctly, it should be ready to work now, at least partially.
@@ -101,11 +106,13 @@ Next copy /init.d/nodeBoard to your pi's /etc/init.d folder (you'll need to get 
 Make it executable and add it to your system startup:
 
 > sudo chmod +x /etc/init.d/nodeBoard
+>
 > sudo update-rc.d nodeBoard defaults
 
 Test it by running 
 
 > sudo /etc/init.d/nodeBoard start
+>
 > sudo pm2 list
 
 Pm2 should show that nodeBoard is runnning. Your board's code handler will now start automatically and be left running when your Pi is started. You can always use "sudo pm2 list" to test if the board process is running, which is useful for debugging.
@@ -119,11 +126,13 @@ Create a folder for express on your pi at
 Upload the contents of this project's /express folder to it. Set the Express server up with
 
 > cd /var/express
+>
 > npm install
 
 copy /init.d/express to your pi's /etc/init.d folder. Make it executable and add it to your system startup:
 
 > sudo chmod +x /etc/init.d/express
+>
 > sudo update-rc.d express defaults
 
 Express will now also be started automatically.
@@ -139,7 +148,9 @@ You should receive "Listening on port 3000". Open a web browser and point it to 
 You will need NPM, Bower and Grunt already installed globally on your local system. Build all ui content - in your local /ui folder, run
 
 > npm install
+>
 > bower install
+>
 > grunt
 
 Optional step : 
