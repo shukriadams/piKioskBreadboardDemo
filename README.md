@@ -30,7 +30,7 @@ Required hardware
 - 3 1Kohm resistors
 - 5 male-female connector wires
 
-Other versions of the Pi and Raspbian haven't beet tested.
+This guide was written using Wheezy (@2015-05-05). I can confirm it does not yet work on Jessie - web server access fails. 
 
 Wiring your breadboard
 ===
@@ -127,7 +127,7 @@ Create a folder for express on your pi at
 
 > sudo mkdir /var/express
 
-Upload the contents of this project's /express folder to it. Set the Express server up with
+You may have to set the permission of this folder so Express can execute in it (I normally give everyone permission to do anything in it because getting things done > security). Upload the contents of this project's /express folder to it. Set the Express server up with
 
 > cd /var/express
 >
