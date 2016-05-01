@@ -40,7 +40,11 @@ Pi setup
 ===
 First, some basics. This isn't a very technically-demanding demo, but you'll get a stable environment which lets you code and debug each stage. As a Javascript developer, and I wanted to do everything in NodeJS. Everything in here is written and tested on NodeJS version 0.12. I'm going to assume you're already familiar with basic Pi setup and operation such as editing files and Linux permissions.
 
-Lets get started. As usual, update your Pi with
+Lets get started. First, ensure that your Pi has enough space to work - if you haven't expanded your Pi partition to use all available disk space, you should do it now (requires reboot)
+
+> sudo raspi-config
+
+Update your Pi with
 
 >  sudo apt-get update
 >
