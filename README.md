@@ -61,6 +61,8 @@ I'm not sure if this is the best way to set up but I find installing Apache does
 First, install iptables-persist
 
 > sudo apt-get install iptables-persistent
+>
+> sudo reboot
 
 and agree when it asks about saving rules. This app automatically saves changes made to iptables - without it,  rebooting your pi will cause your changes to be lost. (iptables-persistent requires a system reboot after installing). Then 
 
@@ -74,7 +76,17 @@ Install NodeJS
 > wget http://node-arm.herokuapp.com/node_archive_armhf.deb
 >
 > sudo dpkg -i node_archive_armhf.deb
+
+JESSIE ONLY : you'll likely get a conflict with an existing version of node. If that happens, 
+
+> sudo dpkg --purge --force-all nodejs-legacy
 >
+> sudo dpkg -i node_archive_armhf.deb 
+>
+> sudo reboot
+
+Finally,
+
 > node -v
 
 Running "node -v" should return 0.12.6. It's important that you *don't* install NodeJS with **apt-get install nodejs**, this installs the latest version which did not work for what I'm doing here.
@@ -145,7 +157,7 @@ You can confirm express is working with
 
 > sudo node /var/express/app
 
-You should receive "Listening on port 3000". Open a web browser and point it to http://[your Pi's IP number]/test.html. You should see a page saying "test worked".
+You should receive "Listening on port 3000". Open a web browser and point it to http://[your Pi's IP number]/test.html. You should see a page saying "test worked". If this fails it's normally because of a port 80 access issue, and that's normally because something has gone wrong during iptables-persist setup.
 
 3 - UI
 ---
@@ -166,7 +178,7 @@ Copy everything in /ui/src to /var/express/content
 ---
 Running your Pi in "kiosk" mode means running a browser on it, and connected a screen so that browser is always running in locked, full screen mode. We'll forego proper kiosk for this demo because at the time of writing only the Chromium browser supports true kiosk mode, but the ARM port of Chromium is out of date and doesn't properly support modern CSS features. We'll fake kiosk mode in the more up-to-date browser Epiphany, which should be installed by default on Raspbian. 
 
-Enable boot-to-desktop in the main pi config menu with (this will a reboot)
+Enable boot-to-desktop in the main pi config menu with (this will require a reboot). 
 
 > sudo raspi-config
 
@@ -185,17 +197,20 @@ And set its contents to look like
     @xset s off
     @xset -dpms
     @xset s noblank
-    @sh /home/pi/startKiosk.sh
+    @sh /home/pi/board/startKiosk.sh
 
 
 Install Xautomation (we need this to automate fullscreening your browser)
 
 > sudo apt-get install xautomation
 
-Copy /board/startKiosk.sh to /home/pi/
-Make it executable 
+Make startKiosk.sh executable 
 
-> chmod u+x /home/pi/startKiosk.sh
+> chmod u+x /home/pi/board/startKiosk.sh
 
-This script waits 10 seconds, starts a browser on the demo page, then fullscreens it. The 10 second wait is to ensure that Express has started. And that's it, you're set. Clicking the buttons on your controller will scroll the page back or forward.
+This script waits 10 seconds, starts a browser on the demo page, then fullscreens it. The 10 second wait is to ensure that Express has started. And that's it, you're set. Reboot once more.
+
+> sudo reboot
+
+Your pi should restart into xerver, open a browser and launch the demo page. Clicking the buttons on your controller will scroll the page back or forward.
 
