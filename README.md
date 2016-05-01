@@ -30,7 +30,7 @@ Required hardware
 - 3 1Kohm resistors
 - 5 male-female connector wires
 
-This guide was written using Wheezy (@2015-05-05). I can confirm it does not yet work on Jessie - web server access fails. 
+This guide was written using the last version of Wheezy (@2015-05-05 - https://downloads.raspberrypi.org/raspbian/images/raspbian-2015-05-07/ ) I can confirm it does not yet work on Jessie - web server access fails. 
 
 Wiring your breadboard
 ===
