@@ -83,17 +83,17 @@ Install PM2
 
 > sudo npm install -g pm2
 
-PM stands for "Process Manager", this is a useful NodeJS package for keeping programs running in a server environment. 
+PM is a process manager - it keeps NodeJS processes running in a server environment, and also allows you to track and restart them. 
 
 1 - BreadBoard code
 ---
 On your Pi, create a folder for the breadboard controller code
 
-> mkdir /home/pi/board. 
+> mkdir /home/pi/board 
 
 Copy everything from this project's /board folder to that folder. You can use SFTP for this. Then
 
-> cd /home/pi/board. 
+> cd /home/pi/board 
 >
 > npm install 
 
